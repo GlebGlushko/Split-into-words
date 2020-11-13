@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace jooble
 {
-    class Node
+    public class Node
     {
         public bool isLeaf = false;
         public Dictionary<char, Node> children;
@@ -13,7 +13,7 @@ namespace jooble
     }
     public class Trie
     {
-        private Node root;
+        public Node root;
         public Trie()
         {
             root = new Node();

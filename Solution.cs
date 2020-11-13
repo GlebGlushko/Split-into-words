@@ -42,24 +42,35 @@ namespace jooble
             for (int i = 0; i < len; ++i)
                 graph[i] = new List<int>();
 
-            for (int i = 0; i <= len; ++i)
-                for (int l = 1; l + i <= len; ++l)
+            for (int i = 0; i < len; ++i)
+            {
+                Node cur;
+                if (dictionary.root.children.ContainsKey(word[i]))
+                    cur = dictionary.root.children[word[i]];
+                else
+                    continue;
+
+                for (int l = 0; i + l < len; ++l)
                 {
-                    string sub = word.Substring(i, l);
-                    if (dictionary.Find(sub))
-                    {
-                        graph[i].Add(i + l);
-                    }
+                    if (cur.isLeaf)
+                        graph[i].Add(i + l + 1);
+
+                    if (i + l + 1 < len && cur.children.ContainsKey(word[i + l + 1]))
+                        cur = cur.children[word[i + l + 1]];
+                    else break;
                 }
+
+            }
             dfs(0, new List<int> { }, word);
 
-            if (bestSplit == null) return new string[] { word };
+            if (bestSplit == null) return new string[] { word
+};
             string[] ans = new string[bestSplit.Length];
-            int start = 0;
+            int prev = 0;
             for (int i = 0; i < bestSplit.Length; ++i)
             {
-                ans[i] = word.Substring(start, bestSplit[i] - start + 1);
-                start = bestSplit[i] + 1;
+                ans[i] = word.Substring(prev, bestSplit[i] - prev + 1);
+                prev = bestSplit[i] + 1;
             }
             return ans;
         }
