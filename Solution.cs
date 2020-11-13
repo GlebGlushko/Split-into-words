@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 namespace jooble
 {
     public class Solution
     {
-        private string[] bestSplit;
+        private int[] bestSplit;
         private Dictionary<int, List<int>> graph;
         private HashSet<string> dictionary;
         public Solution(HashSet<string> dict)
@@ -13,13 +14,13 @@ namespace jooble
             graph = new Dictionary<int, List<int>>();
         }
 
-        private void dfs(int current_ind, List<string> current_split, string original)
+        private void dfs(int current_ind, List<int> current_split, string original)
         {
             if (current_ind == original.Length)
             {
                 if (bestSplit == null || bestSplit.Length < current_split.Count)
                 {
-                    bestSplit = new string[current_split.Count];
+                    bestSplit = new int[current_split.Count];
                     current_split.CopyTo(bestSplit);
                 }
                 return;
@@ -27,7 +28,7 @@ namespace jooble
 
             foreach (int next in graph[current_ind])
             {
-                current_split.Add(original.Substring(current_ind, next - current_ind));
+                current_split.Add(next - 1);
                 dfs(next, current_split, original);
                 current_split.Remove(current_split.Last());
             }
@@ -50,10 +51,23 @@ namespace jooble
                         graph[i].Add(i + l);
                     }
                 }
-            dfs(0, new List<string> { }, word);
+            dfs(0, new List<int> { }, word);
 
             if (bestSplit == null) return new string[] { word };
-            return bestSplit;
+            string[] ans = new string[bestSplit.Length];
+            int start = 0;
+            for (int i = 0; i < bestSplit.Length; ++i)
+            {
+                ans[i] = word.Substring(start, bestSplit[i] - start + 1);
+                start = bestSplit[i] + 1;
+            }
+            return ans;
         }
     }
 }
+
+//krakenhaus
+//0123456789
+
+//krankenhaus
+//kran, k, en, haus // разбили на 4 части
