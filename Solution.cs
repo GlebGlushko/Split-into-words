@@ -4,22 +4,24 @@ namespace jooble
 {
     public class Solution
     {
-        private List<string[]> allSplits;
+        private string[] bestSplit;
         private Dictionary<int, List<int>> graph;
         private HashSet<string> dictionary;
         public Solution(HashSet<string> dict)
         {
             dictionary = dict;
             graph = new Dictionary<int, List<int>>();
-            allSplits = new List<string[]>();
         }
 
         private void dfs(int current_ind, List<string> current_split, string original)
         {
             if (current_ind == original.Length)
             {
-                allSplits.Add(new string[current_split.Count]);
-                current_split.CopyTo(allSplits[allSplits.Count - 1]);
+                if (bestSplit == null || bestSplit.Length < current_split.Count)
+                {
+                    bestSplit = new string[current_split.Count];
+                    current_split.CopyTo(bestSplit);
+                }
                 return;
             }
 
@@ -49,11 +51,9 @@ namespace jooble
                     }
                 }
             dfs(0, new List<string> { }, word);
-            if (allSplits.Count == 0) return new string[] { word };
-            int mx = 0;
-            for (int i = 0; i < allSplits.Count; ++i)
-                if (allSplits[i].Length > allSplits[mx].Length) mx = i;
-            return allSplits[mx];
+
+            if (bestSplit == null) return new string[] { word };
+            return bestSplit;
         }
     }
 }
