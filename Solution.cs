@@ -7,8 +7,8 @@ namespace jooble
     {
         private int[] bestSplit;
         private Dictionary<int, List<int>> graph;
-        private HashSet<string> dictionary;
-        public Solution(HashSet<string> dict)
+        private Trie dictionary;
+        public Solution(Trie dict)
         {
             dictionary = dict;
             graph = new Dictionary<int, List<int>>();
@@ -46,7 +46,7 @@ namespace jooble
                 for (int l = 1; l + i <= len; ++l)
                 {
                     string sub = word.Substring(i, l);
-                    if (dictionary.Contains(sub))
+                    if (dictionary.Find(sub))
                     {
                         graph[i].Add(i + l);
                     }

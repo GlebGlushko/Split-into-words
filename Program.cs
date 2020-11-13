@@ -9,15 +9,15 @@ namespace jooble
         static void Main(string[] args)
         {
             const string path = @"./data/dict.txt";
-            HashSet<string> dictionary = new HashSet<string>();
 
+            Trie dictionary = new Trie();
             using (StreamReader file = new StreamReader(path))
             {
                 string entry;
                 while ((entry = file.ReadLine()) != null)
                 {
                     if (entry != null)
-                        dictionary.Add(entry.ToLower());
+                        dictionary.Insert(entry.ToLower());
                     else
                         break;
                 }
