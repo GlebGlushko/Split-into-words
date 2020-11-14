@@ -44,3 +44,11 @@ possible paths:
 0->4        //stands for ["abcd"]
 
 First path is our answer
+```
+## Dynamic approach
+For now, we build graph and traverse it choosing the split with most parts. But we use extra memory for storing graph, for storing current split and obviously for stack calls, because our depth-first-search is recursive. Let's simplify it.
+As we have to find only one split with most words, we can come up with dynamic approach. For each char in a given word we will memorize how many words we used to get there and the last ancestor we came from. Maximum words we can use to split our word into parts will be stored in ```dp[LEN]```, where ```LEN``` is the length of the word. And we can restore our split, by going from current position to ancestor until we reach the beginning. 
+It doesn't improve theoretical time complexity and memory usage, but in fact, it will work faster because we don't have to traverse the graph and it will use less memory, because we don't have to store graph and call stack for a recursive approach. And actually it makes our code even shorter.
+Dynamic approach can be found in the branch [```dp```](https://github.com/GlebGlushko/Split-into-words/tree/dp).
+
+For any questions please feel free to reach out via email: **gleb.glushko10@gmail.com**, or on telegram: **@HlibHlushko** 
